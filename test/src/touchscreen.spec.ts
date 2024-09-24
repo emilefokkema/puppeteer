@@ -246,7 +246,7 @@ describe('Touchscreen', () => {
       ]);
     });
 
-    it.only('should also work', async () => {
+    it('should also work', async () => {
       const {page, server} = await getTestState();
       await page.goto(server.PREFIX + '/input/touchscreen.html');
 
