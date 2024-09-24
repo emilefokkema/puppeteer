@@ -245,5 +245,91 @@ describe('Touchscreen', () => {
         },
       ]);
     });
+
+    it.only('should also work', async () => {
+      const {page, server} = await getTestState();
+      await page.goto(server.PREFIX + '/input/touchscreen.html');
+
+      await page.touchscreen.touchStart(100, 100);
+      await page.touchscreen.touchStart(200, 200);
+      await page.touchscreen.touchMove(150, 150);
+
+      expect(
+        await page.evaluate(() => {
+          return allEvents;
+        })
+      ).toMatchObject([
+        {
+          type: "pointerdown",
+          x: 100,
+          y: 100,
+          width: 1,
+          height: 1,
+          altitudeAngle: 1.5707963267948966,
+          azimuthAngle: 0,
+          pressure: 0.5,
+          pointerType: "touch",
+          twist: 0,
+          tiltX: 0,
+          tiltY: 0
+        },
+        {
+          type: "touchstart",
+          changedTouches: [
+            {
+              clientX: 100,
+              clientY: 100,
+              radiusX: 0.5,
+              radiusY: 0.5,
+              force: 0.5
+            }
+          ],
+          activeTouches: [
+            {
+              clientX: 100,
+              clientY: 100,
+              radiusX: 0.5,
+              radiusY: 0.5,
+              force: 0.5
+            }
+          ]
+        },
+        {
+          type: "pointermove",
+          x: 200,
+          y: 200,
+          width: 1,
+          height: 1,
+          altitudeAngle: 1.5707963267948966,
+          azimuthAngle: 0,
+          pressure: 0.5,
+          pointerType: "touch",
+          twist: 0,
+          tiltX: 0,
+          tiltY: 0
+        },
+        {
+          type: "touchmove",
+          changedTouches: [
+            {
+              clientX: 200,
+              clientY: 200,
+              radiusX: 0.5,
+              radiusY: 0.5,
+              force: 0.5
+            }
+          ],
+          activeTouches: [
+            {
+              clientX: 200,
+              clientY: 200,
+              radiusX: 0.5,
+              radiusY: 0.5,
+              force: 0.5
+            }
+          ]
+        }
+      ])
+    })
   });
 });
